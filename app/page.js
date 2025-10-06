@@ -31,6 +31,7 @@ export default function Home() {
    */
   const getAllBusinessList=()=>{
     GlobalApi.getAllBusinessList().then(resp=>{
+      console.log(resp.businessLists);
       setBusinessList(resp.businessLists)
     })
   }
