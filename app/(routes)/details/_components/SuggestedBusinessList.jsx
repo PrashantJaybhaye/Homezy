@@ -66,7 +66,7 @@ function SuggestedBusinessList({business}) {
             <Link
               key={index}
               href={'/details/' + b.id}
-              className='flex gap-3 p-2 border rounded-lg hover:bg-accent/40 transition-colors'
+              className='flex gap-3 p-2.5 border rounded-lg bg-card hover:bg-accent/40 transition-all shadow-sm hover:shadow-md'
             >
               <Image
                 src={b?.images?.[0]?.url}
