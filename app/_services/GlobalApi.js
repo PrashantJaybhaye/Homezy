@@ -2,6 +2,15 @@ const { gql, default: request } = require("graphql-request")
 
 const MASTER_URL = 'https://ap-south-1.cdn.hygraph.com/content/' + process.env.NEXT_PUBLIC_MASTER_URL_KEY + '/master'
 
+// Request headers with authentication
+const getRequestHeaders = () => {
+  const headers = {};
+  if (process.env.NEXT_PUBLIC_HYGRAPH_AUTH_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.NEXT_PUBLIC_HYGRAPH_AUTH_TOKEN}`;
+  }
+  return headers;
+}
+
 const getCategory = async () => {
   const query = gql`
     query Category {
@@ -17,8 +26,7 @@ const getCategory = async () => {
         }
       }
       `
-
-  const result = await request(MASTER_URL, query)
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
   return result
 }
 
@@ -41,7 +49,7 @@ const getAllBusinessList = async () => {
         }
       }
       `
-  const result = await request(MASTER_URL, query)
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
   return result;
 
 }
@@ -66,7 +74,7 @@ const getBusinessByCategory = async (category) => {
         }
       }
       `
-  const result = await request(MASTER_URL, query)
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
   return result;
 }
 
@@ -89,10 +97,9 @@ const getBusinessById = async (id) => {
     }
   }
   `
-  const result = await request(MASTER_URL, query)
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
   return result;
 }
-
 
 const createNewBooking = async (businessId, date, time, userEmail, userName) => {
   const mutationQuery = gql`
@@ -111,7 +118,7 @@ const createNewBooking = async (businessId, date, time, userEmail, userName) => 
     }
   }
   `
-  const result = await request(MASTER_URL, mutationQuery)
+  const result = await request(MASTER_URL, mutationQuery, {}, getRequestHeaders())
   return result;
 }
 
@@ -125,7 +132,7 @@ const BusinessBookedSlot = async (businessId, date) => {
     }
   }
   `
-  const result = await request(MASTER_URL, query)
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
   return result;
 }
 
@@ -148,7 +155,7 @@ const GetUserBookingHistory = async (userEmail) => {
     }
   }
   `
-  const result = await request(MASTER_URL, query)
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
   return result;
 
 }
@@ -168,7 +175,7 @@ const deleteBooking = async (bookingId) => {
   
   `
 
-  const result = await request(MASTER_URL, mutationQuery)
+  const result = await request(MASTER_URL, mutationQuery, {}, getRequestHeaders())
   return result;
 
 }

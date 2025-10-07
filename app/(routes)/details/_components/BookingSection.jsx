@@ -86,7 +86,7 @@ function BookingSection({ children, business }) {
       (e) => {
         toast("Error while creating booking");
         //Error Toast Msg
-        console.log(e)
+        console.log(JSON.stringify(e))
       }
     );
   };
