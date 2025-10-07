@@ -15,56 +15,74 @@ import {
 import BookingSection from './BookingSection';
 
 function SuggestedBusinessList({business}) {
-  
-  const [businessList,setBusinessList]=useState([]);
-    useEffect(()=>{
-       
-        business&&getBusinessList()
-    },[business]);
+  const [businessList, setBusinessList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const getBusinessList=()=>{
-        GlobalApi.getBusinessByCategory(business?.category?.name)
-        .then(resp=>{
-            setBusinessList(resp?.businessLists);
-        })
+  useEffect(() => {
+    if (business?.category?.name) {
+      setLoading(true);
+      getBusinessList();
     }
+  }, [business]);
 
-  
+  const getBusinessList = () => {
+    GlobalApi.getBusinessByCategory(business?.category?.name)
+      .then(resp => {
+        setBusinessList(resp?.businessLists || []);
+      })
+      .finally(() => setLoading(false));
+  }
+
   return (
     <div className='md:pl-10'>
-     
       <BookingSection business={business}>
-        <Button className="flex gap-2 w-full">
-        <NotebookPen/>
-        Book Appointment  
-        </Button> 
+        <Button className="flex gap-2 w-full rounded-full">
+          <NotebookPen className='h-4 w-4'/>
+          Book Appointment
+        </Button>
       </BookingSection>
-      <div className='hidden md:block'>
-      <h2 className='font-bold 
-      text-lg mt-3 mb-3
-      
-      '>Similar Business</h2>
-      <div className=''>
-        {businessList&&businessList.map((business,index)=>(
-          <Link key={index} href={'/details/'+business.id} className="flex gap-2 mb-4
-          hover:border rounded-lg p-2
-          cursor-pointer hover:shadow-md
-           border-primary">
-            <Image src={business?.images[0].url}
-            alt={business.name}
-            width={80}
-            height={80}
-            className='rounded-lg object-cover h-[100px]'
-            />
-            <div className=''>
-              <h2 className='font-bold'>{business.name}</h2>
-              <h2 className='text-primary'>{business.contactPerson}</h2>
-              <h2 className='text-gray-400'>{business.address}</h2>
 
+      <div className='hidden md:block'>
+        <h2 className='font-semibold text-base mt-4 mb-3 tracking-tight'>Similar Businesses</h2>
+        <div className='space-y-3'>
+          {loading && [1,2,3].map((i) => (
+            <div key={i} className='flex gap-3 p-2 border rounded-lg animate-pulse'>
+              <div className='h-[72px] w-[90px] bg-muted rounded-lg' />
+              <div className='flex-1 space-y-2'>
+                <div className='h-4 w-2/3 bg-muted rounded' />
+                <div className='h-3 w-1/2 bg-muted rounded' />
+                <div className='h-3 w-3/4 bg-muted rounded' />
+              </div>
             </div>
-          </Link>
-        ))}
-      </div>
+          ))}
+
+          {!loading && businessList && businessList.length === 0 && (
+            <div className='p-4 border rounded-lg text-sm text-foreground/60'>
+              No similar businesses found.
+            </div>
+          )}
+
+          {!loading && businessList && businessList.map((b, index) => (
+            <Link
+              key={index}
+              href={'/details/' + b.id}
+              className='flex gap-3 p-2 border rounded-lg hover:bg-accent/40 transition-colors'
+            >
+              <Image
+                src={b?.images?.[0]?.url}
+                alt={b?.name}
+                width={90}
+                height={72}
+                className='rounded-lg object-cover h-[72px] w-[90px]'
+              />
+              <div className='min-w-0'>
+                <h3 className='font-medium text-sm truncate'>{b?.name}</h3>
+                <p className='text-primary text-xs'>{b?.contactPerson}</p>
+                <p className='text-foreground/60 text-xs line-clamp-1'>{b?.address}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )
