@@ -1,8 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,11 +21,7 @@ import {
 import { Menu } from "lucide-react";
 
 function Header() {
-  const { data } = useSession();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { isSignedIn, user } = useUser();
 
   return (
     <div className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-background/60 border-b">
@@ -62,32 +58,21 @@ function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
-          {data?.user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Image
-                  src={data?.user?.image}
-                  alt="user"
-                  width={40}
-                  height={40}
-                  className="rounded-full ring-2 ring-transparent hover:ring-primary transition"
-                />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href={"/mybooking"}>My Booking</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut()}>
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          {isSignedIn ? (
+            <div className="flex items-center gap-3">
+              <Link href="/mybooking">
+                <Button variant="ghost" className="text-sm">
+                  My Booking
+                </Button>
+              </Link>
+              <UserButton afterSignOutUrl="/" />
+            </div>
           ) : (
-            <Button className="rounded-full" onClick={() => signIn("descope")}>
-              Login / Sign Up
-            </Button>
+            <SignInButton mode="redirect" redirectUrl="/sign-in">
+              <Button className="rounded-full">
+                Login / Sign Up
+              </Button>
+            </SignInButton>
           )}
           {/* Mobile menu */}
           <div className="md:hidden">
@@ -120,27 +105,25 @@ function Header() {
                     </Link>
                   </SheetClose>
                   <div className="h-px bg-border" />
-                  {data?.user ? (
+                  {isSignedIn ? (
                     <div className="flex flex-col gap-3">
                       <SheetClose asChild>
                         <Link href="/mybooking" className="text-base">
                           My Booking
                         </Link>
                       </SheetClose>
-                      <SheetClose asChild>
-                        <Button variant="secondary" onClick={() => signOut()}>
-                          Logout
-                        </Button>
-                      </SheetClose>
+                      <div className="flex items-center gap-2">
+                        <UserButton afterSignOutUrl="/" />
+                        <span className="text-sm">{user?.fullName || user?.emailAddresses?.[0]?.emailAddress}</span>
+                      </div>
                     </div>
                   ) : (
                     <SheetClose asChild>
-                      <Button
-                        className="rounded-full"
-                        onClick={() => signIn("descope")}
-                      >
-                        Login / Sign Up
-                      </Button>
+                      <SignInButton mode="redirect" redirectUrl="/sign-in">
+                        <Button className="rounded-full">
+                          Login / Sign Up
+                        </Button>
+                      </SignInButton>
                     </SheetClose>
                   )}
                 </div>

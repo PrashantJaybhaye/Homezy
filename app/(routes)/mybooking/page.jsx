@@ -3,22 +3,22 @@ import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BookingHistoryList from './_component/BookingHistoryList'
 import GlobalApi from '@/app/_services/GlobalApi'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import moment from 'moment'
 
 function MyBooking() {
 
-    const {data}=useSession();
+    const { user } = useUser();
     const [bookingHistory,setBookingHistory]=useState([]);
     useEffect(()=>{
-        data&&GetUserBookingHistory();
-    },[data])
+        user&&GetUserBookingHistory();
+    },[user])
 
     /**
      * Used to Get User Booking History
      */
     const GetUserBookingHistory=()=>{
-        GlobalApi.GetUserBookingHistory(data.user.email).then(resp=>{
+        GlobalApi.GetUserBookingHistory(user.primaryEmailAddress.emailAddress).then(resp=>{
             console.log(resp);
             setBookingHistory(resp.bookings);
         })
