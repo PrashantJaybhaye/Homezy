@@ -1,23 +1,27 @@
 "use client"
 import GlobalApi from '@/app/_services/GlobalApi';
-import { signIn, useSession } from 'next-auth/react'
+import { useUser, SignInButton } from '@clerk/nextjs'
 import React, { useEffect, useState } from 'react'
 import BusinessInfo from '../_components/BusinessInfo';
 import SuggestedBusinessList from '../_components/SuggestedBusinessList';
 import BusinessDescription from '../_components/BusinessDescription';
+import { useRouter } from 'next/navigation';
 
 function BusinessDetail({params}) {
 
-    const {data,status}=useSession();
+    const { isSignedIn, isLoaded } = useUser();
+    const router = useRouter();
     const [business,setBusiness]=useState([]);
-    
+
     useEffect(()=>{
       params&&getbusinessById();
     },[params]);
 
     useEffect(()=>{
-      checkUserAuth();
-    },[]);
+      if (isLoaded && !isSignedIn) {
+        router.push('/sign-in');
+      }
+    },[isLoaded, isSignedIn]);
 
     const getbusinessById=()=>{
       GlobalApi.getBusinessById(params.businessId).then(resp=>{
@@ -25,22 +29,9 @@ function BusinessDetail({params}) {
       })
     }
 
-    const checkUserAuth=()=>{
-      if(status=='loading')
-      {
-          return <p>Loading...</p>
-      }
-  
-      if(status=='unauthenticated')
-      {
-          signIn('descope');
-      }
-  
-    }
 
-   
 
-  return status=='authenticated'&&business&&(
+  return isSignedIn&&business&&(
     <div className='py-8 md:py-20
     px-10 md:px-36'>
         <BusinessInfo business={business} />

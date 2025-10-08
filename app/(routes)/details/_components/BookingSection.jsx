@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Sheet,
@@ -13,7 +14,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import GlobalApi from "@/app/_services/GlobalApi";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import moment from "moment";
 
@@ -22,7 +23,7 @@ function BookingSection({ children, business }) {
   const [timeSlot, setTimeSlot] = useState([]);
   const [selectedTime, setSelectedTime] = useState();
   const [bookedSlot, setBookedSlot] = useState([]);
-  const { data } = useSession();
+  const { user } = useUser();
   useEffect(() => {
     getTime();
   }, []);
@@ -71,8 +72,8 @@ function BookingSection({ children, business }) {
       business.id,
       moment(date).format("DD-MMM-yyyy"),
       selectedTime,
-      data.user.email,
-      data.user.name
+      user.primaryEmailAddress.emailAddress,
+      user.fullName || user.firstName || user.emailAddresses[0].emailAddress
     ).then(
       (resp) => {
         console.log(resp);
