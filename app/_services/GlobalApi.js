@@ -152,6 +152,7 @@ const GetUserBookingHistory = async (userEmail) => {
       date
       time
       id
+      bookingStatus
     }
   }
   `
