@@ -41,11 +41,11 @@ function Header() {
               className="flex items-center transition-transform hover:scale-105 duration-200"
             >
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="Homezy Logo"
-                width={120}
-                height={60}
-                className="w-[100px] h-auto sm:w-[120px] md:w-[140px]"
+                width={170}
+                height={90}
+                className="w-[150px] h-auto sm:w-[160px] md:w-[190px]"
                 priority
               />
             </Link>
