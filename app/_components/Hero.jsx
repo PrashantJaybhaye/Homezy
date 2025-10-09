@@ -1,9 +1,21 @@
+"use client";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 function Hero() {
+  const [searchInput, setSearchInput] = useState('');
+  const router = useRouter();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      router.push(`/search/${searchInput.trim()}`);
+    }
+  };
+
   return (
     <div className='relative overflow-hidden rounded-2xl border bg-gradient-to-b from-purple-50/80 to-transparent dark:from-purple-900/10 my-6'>
       {/* Decorative background orbs */}
@@ -17,15 +29,24 @@ function Hero() {
           <br /> Near You
         </h2>
         <h2 className='text-sm md:text-base text-foreground/60 text-center max-w-2xl'>Explore trusted professionals for home services & repairs near you</h2>
-        <div className='mt-6 flex gap-2 items-center w-full justify-center'>
+        <form onSubmit={handleSearch} className='mt-6 flex gap-2 items-center w-full justify-center'>
           <div className='flex items-center gap-2 bg-white dark:bg-background border rounded-full pl-4 pr-2 py-2 shadow-sm w-full max-w-xl focus-within:ring-2 focus-within:ring-primary/30 focus-within:ring-offset-0'>
             <Search className='h-4 w-4 text-foreground/50 shrink-0' />
             <Input
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               placeholder='Search for services, e.g. electrician, plumber'
               className='border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-full placeholder:text-foreground/40'
             />
+            <Button 
+              type="submit"
+              size="sm" 
+              className="rounded-full px-6 shadow-md hover:shadow-lg transition-all"
+            >
+              Search
+            </Button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

@@ -165,20 +165,14 @@ const GetUserBookingHistory = async (userEmail) => {
 const deleteBooking = async (bookingId) => {
   const mutationQuery = gql`
   mutation DeleteBooking {
-    updateBooking(
-      data: {userName: "RRRS"}
-      where: {id: "cltastwp36re707jzb02sgdlm"}
-    ) {
+    deleteBooking(where: {id: "`+ bookingId + `"}) {
       id
     }
   }
-  
-  
   `
 
   const result = await request(MASTER_URL, mutationQuery, {}, getRequestHeaders())
   return result;
-
 }
 
 export default {

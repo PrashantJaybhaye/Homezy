@@ -1,12 +1,19 @@
 {
-  "name": "home-service-web-app",
-  "version": "0.1.0",
+  "name": "homezy",
+  "version": "1.0.0",
+  "description": "Find & Book Home Services Near You - A complete home service booking platform",
+  "author": "Prashant Jaybhaye",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "clean": "rm -rf .next node_modules",
+    "reinstall": "npm run clean && npm install"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.33.3",
