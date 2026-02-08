@@ -3,10 +3,19 @@ const nextConfig = {
     reactStrictMode: false,
     images: {
         unoptimized: true,
-        domains: [
-            'media.graphassets.com',
-            'lh3.googleusercontent.com',
-            'api.dicebear.com' // For avatar generation in testimonials
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'media.graphassets.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'api.dicebear.com',
+            }
         ]
     }
 };

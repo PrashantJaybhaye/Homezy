@@ -26,18 +26,17 @@ function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
           ? "backdrop-blur-xl bg-white/80 dark:bg-background/80 shadow-lg shadow-black/5"
           : "backdrop-blur-md bg-white/70 dark:bg-background/60"
-      } border-b border-border/40`}
+        } border-b border-border/40`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo Section */}
           <div className="flex items-center gap-8 lg:gap-12">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="flex items-center transition-transform hover:scale-105 duration-200"
             >
               <Image
@@ -82,8 +81,8 @@ function Header() {
               <>
                 {/* My Booking Button - Hidden on small mobile */}
                 <Link href="/mybooking" className="hidden sm:block">
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="sm"
                     className="text-sm font-medium hover:bg-primary/10 transition-colors"
                   >
@@ -92,10 +91,10 @@ function Header() {
                     <span className="md:hidden">Bookings</span>
                   </Button>
                 </Link>
-                
+
                 {/* User Button */}
                 <div className="scale-90 sm:scale-100">
-                  <UserButton 
+                  <UserButton
                     afterSignOutUrl="/"
                     appearance={{
                       elements: {
@@ -106,8 +105,8 @@ function Header() {
                 </div>
               </>
             ) : (
-              <SignInButton mode="redirect" redirectUrl="/sign-in">
-                <Button 
+              <SignInButton mode="redirect" forceRedirectUrl="/sign-in">
+                <Button
                   className="rounded-full px-4 sm:px-6 text-xs sm:text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                   size="sm"
                 >
@@ -130,8 +129,8 @@ function Header() {
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent 
-                  side="right" 
+                <SheetContent
+                  side="right"
                   className="w-[280px] sm:w-[350px] p-0 border-l border-border/40"
                 >
                   {/* Mobile Menu Header */}
@@ -143,8 +142,8 @@ function Header() {
                   <div className="flex flex-col p-6">
                     <nav className="flex flex-col gap-2 mb-6">
                       <SheetClose asChild>
-                        <Link 
-                          href="/" 
+                        <Link
+                          href="/"
                           className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-200"
                         >
                           <Home className="w-5 h-5" />
@@ -152,8 +151,8 @@ function Header() {
                         </Link>
                       </SheetClose>
                       <SheetClose asChild>
-                        <Link 
-                          href="/services" 
+                        <Link
+                          href="/services"
                           className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-200"
                         >
                           <Briefcase className="w-5 h-5" />
@@ -161,8 +160,8 @@ function Header() {
                         </Link>
                       </SheetClose>
                       <SheetClose asChild>
-                        <Link 
-                          href="/about" 
+                        <Link
+                          href="/about"
                           className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-200"
                         >
                           <Info className="w-5 h-5" />
@@ -177,8 +176,8 @@ function Header() {
                     {isSignedIn ? (
                       <div className="flex flex-col gap-3">
                         <SheetClose asChild>
-                          <Link 
-                            href="/mybooking" 
+                          <Link
+                            href="/mybooking"
                             className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-200"
                           >
                             <Calendar className="w-5 h-5" />
@@ -199,8 +198,8 @@ function Header() {
                       </div>
                     ) : (
                       <SheetClose asChild>
-                        <SignInButton mode="redirect" redirectUrl="/sign-in">
-                          <Button 
+                        <SignInButton mode="redirect" forceRedirectUrl="/sign-in">
+                          <Button
                             className="w-full rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                             size="lg"
                           >
