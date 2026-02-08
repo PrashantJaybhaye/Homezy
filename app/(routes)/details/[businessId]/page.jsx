@@ -7,44 +7,44 @@ import SuggestedBusinessList from '../_components/SuggestedBusinessList';
 import BusinessDescription from '../_components/BusinessDescription';
 import { useRouter } from 'next/navigation';
 
-function BusinessDetail({params}) {
+function BusinessDetail({ params }) {
+  const unwrappedParams = React.use(params);
+  const { isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
+  const [business, setBusiness] = useState([]);
 
-    const { isSignedIn, isLoaded } = useUser();
-    const router = useRouter();
-    const [business,setBusiness]=useState([]);
+  useEffect(() => {
+    unwrappedParams && getbusinessById();
+  }, [unwrappedParams]);
 
-    useEffect(()=>{
-      params&&getbusinessById();
-    },[params]);
-
-    useEffect(()=>{
-      if (isLoaded && !isSignedIn) {
-        router.push('/sign-in');
-      }
-    },[isLoaded, isSignedIn]);
-
-    const getbusinessById=()=>{
-      GlobalApi.getBusinessById(params.businessId).then(resp=>{
-        setBusiness(resp.businessList);
-      })
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push('/sign-in');
     }
+  }, [isLoaded, isSignedIn]);
+
+  const getbusinessById = () => {
+    GlobalApi.getBusinessById(unwrappedParams.businessId).then(resp => {
+      setBusiness(resp.businessList);
+    })
+  }
 
 
 
-  return isSignedIn&&business&&(
+  return isSignedIn && business && (
     <div className='py-8 md:py-20
     px-10 md:px-36'>
-        <BusinessInfo business={business} />
+      <BusinessInfo business={business} />
 
-        <div className='grid grid-cols-3 mt-16'>
-          <div className='col-span-3 md:col-span-2 order-last md:order-first'>
-          <BusinessDescription business={business}/>
-          </div>
-          <div className=''>
-          <SuggestedBusinessList business={business}/>
-          </div>
+      <div className='grid grid-cols-3 mt-16'>
+        <div className='col-span-3 md:col-span-2 order-last md:order-first'>
+          <BusinessDescription business={business} />
         </div>
-    
+        <div className=''>
+          <SuggestedBusinessList business={business} />
+        </div>
+      </div>
+
     </div>
   )
 }

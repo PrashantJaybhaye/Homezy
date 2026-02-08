@@ -23,8 +23,8 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
-          <Header/>
+        <body className={inter.className} suppressHydrationWarning={true}>
+          <Header />
           <div className="mx-6 md:mx-16">
             <Toaster />
             {children}
