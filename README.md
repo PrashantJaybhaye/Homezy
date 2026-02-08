@@ -4,8 +4,8 @@
 
 **Find & Book Home Services Near You**
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.2.33-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql)](https://graphql.org/)
 [![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?style=for-the-badge)](https://clerk.com/)
@@ -19,6 +19,7 @@
 ## ✨ Features
 
 ### 🎯 Core Features
+
 - 🔍 **Smart Search** - Find home services with intelligent search functionality
 - 📱 **Fully Responsive** - Seamless experience across all devices (mobile, tablet, desktop)
 - 🗂️ **Service Categories** - Browse services by organized categories with beautiful icons
@@ -29,6 +30,7 @@
 - 🌙 **Dark Mode Support** - Toggle between light and dark themes
 
 ### 🚀 Additional Features
+
 - ⭐ **Testimonials** - Customer reviews and ratings
 - ❓ **FAQ Section** - Comprehensive frequently asked questions
 - 📄 **Legal Pages** - Privacy Policy and Terms of Service
@@ -39,7 +41,8 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** Next.js 14 (App Router)
+
+- **Framework:** Next.js 16 (App Router)
 - **Language:** JavaScript/JSX
 - **Styling:** TailwindCSS + Tailwind Animate
 - **UI Components:** Radix UI + Lucide Icons
@@ -47,6 +50,7 @@
 - **Theme:** next-themes
 
 ### Backend & Data
+
 - **API:** GraphQL with graphql-request
 - **CMS:** Hygraph (Headless CMS)
 - **Authentication:** Clerk
@@ -54,6 +58,7 @@
 - **Notifications:** Sonner (Toast notifications)
 
 ### Development Tools
+
 - **Package Manager:** npm
 - **Linting:** ESLint
 - **CSS Processing:** PostCSS + Autoprefixer
@@ -61,7 +66,8 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 20+
 - npm or yarn
 - Hygraph account (for CMS)
 - Clerk account (for Authentication)
@@ -69,25 +75,27 @@
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/PrashantJaybhaye/Homezy.git
    cd Homezy
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Environment Setup**
-   
+
    Create a `.env` file in the root directory and add your environment variables:
-   
+
    ```env
    # Hygraph CMS
    NEXT_PUBLIC_MASTER_URL_KEY=your_hygraph_content_api_key
    NEXT_PUBLIC_HYGRAPH_AUTH_TOKEN=your_hygraph_auth_token
-   
+
    # Clerk Authentication
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
    CLERK_SECRET_KEY=your_clerk_secret_key
@@ -98,6 +106,7 @@
    ```
 
 4. **Run the development server**
+
    ```bash
    npm run dev
    ```
@@ -162,6 +171,7 @@ Homezy/
 ## 🎯 Key Components
 
 ### Pages
+
 - **Home** (`/`) - Landing page with hero, categories, popular services, testimonials, and FAQ
 - **Services** (`/services`) - Complete services listing with all categories
 - **About** (`/about`) - Company information, mission, values, and stats
@@ -172,6 +182,7 @@ Homezy/
 - **Terms of Service** (`/terms`) - Terms and conditions
 
 ### Components
+
 - **Header** - Responsive navigation with mobile menu, auth buttons, and scroll effects
 - **Footer** - Multi-column footer with links, contact info, and social media
 - **Hero** - Eye-catching hero section with functional search
@@ -212,6 +223,7 @@ npm run lint         # Run ESLint
 4. Deploy!
 
 ### Other Platforms
+
 - **Netlify:** Follow Next.js deployment guide
 - **Railway:** Use the Next.js template
 - **Docker:** Create Dockerfile for containerization
@@ -232,8 +244,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Your Name**
-- GitHub: [@Prashantjaybhaye](https://github.com/prashantjaybhaye)
+**Prashant Jaybhaye**
+
+- GitHub: [@PrashantJaybhaye](https://github.com/PrashantJaybhaye)
 
 ## 🙏 Acknowledgments
 
@@ -250,5 +263,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **⭐ Star this repo if you found it helpful!**
 
 </div>
-#   H o m e z y  
- 
