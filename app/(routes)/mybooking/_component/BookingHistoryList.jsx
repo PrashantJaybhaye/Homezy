@@ -18,18 +18,6 @@ import { toast } from 'sonner'
 
 
 function BookingHistoryList({ bookingHistory, type }) {
-
-
-  const cancelAppointment = (booking) => {
-    GlobalApi.deleteBooking(booking.id).then(resp => {
-      if (resp) {
-        toast('Booking Delete Successfully!')
-      }
-    }, (e) => {
-      toast('Error while canceling booking!')
-    })
-  }
-
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
       {bookingHistory.map((booking, index) => (
@@ -97,33 +85,6 @@ function BookingHistoryList({ bookingHistory, type }) {
             </div>
           </div>
 
-          {/* <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="mt-5 w-full border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600 hover:border-red-300 transition-colors">
-                Cancel Appointment
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="bg-white">
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently cancel your booking
-                  and remove it from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-red-500 hover:bg-red-600 text-white"
-                  onClick={() => cancelAppointment(booking)}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog> */}
         </div>
       ))}
     </div>
