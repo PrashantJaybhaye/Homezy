@@ -7,7 +7,7 @@ function BusinessList({ businessList, title }) {
     return (
         <div className='mt-5'>
             <h2 className='font-bold text-[22px]'>{title}</h2>
-            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 mt-5'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 mt-5'>
                 {businessList.length > 0 ? businessList.map((business, index) => (
                     <Link
                         href={'/details/' + business.id}

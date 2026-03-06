@@ -34,10 +34,10 @@ function MyBooking() {
     }
 
     return (
-        <div className='my-10 mx-5 md:mx-36'>
-            <h2 className='font-bold text-[20px] my-2'>My Bookings</h2>
+        <div className='my-8 sm:my-12 mx-4 sm:mx-10 md:mx-20 lg:mx-36 max-w-7xl lg:mx-auto'>
+            <h2 className='font-extrabold text-3xl md:text-4xl tracking-tight mb-8'>My Bookings</h2>
             <Tabs defaultValue="booked" className="w-full">
-                <TabsList className="w-full justify-start h-12 bg-muted/30 p-1 border-b gap-2">
+                <TabsList className="w-full flex md:inline-flex justify-start h-auto md:h-12 bg-muted/30 p-1 border-b gap-2 flex-wrap md:flex-nowrap overflow-x-auto">
                     <TabsTrigger value="booked" className="px-6 data-[state=active]:bg-white data-[state=active]:shadow-sm">
                         Booked ({filterData('booked').length})
                     </TabsTrigger>

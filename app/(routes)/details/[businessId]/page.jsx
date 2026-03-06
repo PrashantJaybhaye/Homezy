@@ -32,15 +32,14 @@ function BusinessDetail({ params }) {
 
 
   return isSignedIn && business && (
-    <div className='py-8 md:py-20
-    px-10 md:px-36'>
+    <div className='py-6 md:py-10 px-5 sm:px-10 md:px-20 lg:px-36 max-w-7xl mx-auto'>
       <BusinessInfo business={business} />
 
-      <div className='grid grid-cols-3 mt-16'>
-        <div className='col-span-3 md:col-span-2 order-last md:order-first'>
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 mt-8 md:mt-10'>
+        <div className='lg:col-span-2 order-last lg:order-first'>
           <BusinessDescription business={business} />
         </div>
-        <div className=''>
+        <div className='lg:col-span-1'>
           <SuggestedBusinessList business={business} />
         </div>
       </div>
