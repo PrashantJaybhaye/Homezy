@@ -13,6 +13,7 @@ import {
 
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import GlobalApi from "@/app/_services/GlobalApi";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
@@ -23,6 +24,8 @@ function BookingSection({ children, business }) {
   const [timeSlot, setTimeSlot] = useState([]);
   const [selectedTime, setSelectedTime] = useState();
   const [bookedSlot, setBookedSlot] = useState([]);
+  const [userAddress, setUserAddress] = useState("");
+  const [userPhone, setUserPhone] = useState("");
   const { user } = useUser();
   useEffect(() => {
     getTime();
@@ -73,13 +76,17 @@ function BookingSection({ children, business }) {
       moment(date).format("DD-MMM-yyyy"),
       selectedTime,
       user.primaryEmailAddress.emailAddress,
-      user.fullName || user.firstName || user.emailAddresses[0].emailAddress
+      user.fullName || user.firstName || user.emailAddresses[0].emailAddress,
+      userAddress,
+      userPhone
     ).then(
       (resp) => {
         console.log(resp);
         if (resp) {
           setDate();
           setSelectedTime("");
+          setUserAddress("");
+          setUserPhone("");
           toast("Service Booked successfully!");
           // Toast Msg
         }
@@ -137,6 +144,22 @@ function BookingSection({ children, business }) {
               </Button>
             ))}
           </div>
+
+          <div className="flex flex-col gap-3 mt-5">
+            <h2 className="font-bold">Contact Details</h2>
+            <Input
+              placeholder="Your Phone Number"
+              value={userPhone}
+              className="rounded-xl border-primary/20 focus-visible:ring-primary"
+              onChange={(e) => setUserPhone(e.target.value)}
+            />
+            <Input
+              placeholder="Your Home Address"
+              value={userAddress}
+              className="rounded-xl border-primary/20 focus-visible:ring-primary"
+              onChange={(e) => setUserAddress(e.target.value)}
+            />
+          </div>
           <SheetFooter className="mt-5">
             <SheetClose asChild>
               <div className="flex gap-5">
@@ -145,7 +168,7 @@ function BookingSection({ children, business }) {
                 </Button>
 
                 <Button
-                  disabled={!(selectedTime && date)}
+                  disabled={!(selectedTime && date && userAddress && userPhone)}
                   onClick={() => saveBooking()}
                 >
                   Book

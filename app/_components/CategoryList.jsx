@@ -9,16 +9,21 @@ function CategoryList({ categoryList }) {
                 <Link
                     href={'/search/' + category.name}
                     key={index}
-                    className={`group flex flex-col items-center justify-center gap-2 bg-card border border-border p-4 md:p-5 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-accent/40 transition-all ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30`}
+                    className={`group flex flex-col items-center justify-center gap-2 p-5 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 border border-transparent`}
+                    style={{
+                        backgroundColor: category.bgcolor?.hex || '#f3f4f6'
+                    }}
                 >
                     <Image
                         src={category.icon.url}
                         alt='icon'
-                        width={36}
-                        height={36}
-                        className='transition-transform duration-200 group-hover:scale-105'
+                        width={35}
+                        height={35}
+                        className='transition-transform duration-200 group-hover:rotate-6'
                     />
-                    <h2 className='text-sm md:text-[15px] font-medium text-foreground/80 group-hover:text-foreground'>{category.name}</h2>
+                    <h2 className='text-sm font-bold mt-1 text-primary'>
+                        {category.name}
+                    </h2>
                 </Link>
             )) :
                 [1, 2, 3, 4, 5, 6].map((item, index) => (

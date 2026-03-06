@@ -22,15 +22,20 @@ function BusinessList({ businessList, title }) {
                                 height={220}
                                 className='h-[150px] md:h-[200px] w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]'
                             />
-                            <span className='absolute top-3 left-3 text-[12px] bg-white/90 dark:bg-background/90 border px-2 py-0.5 rounded-full shadow-sm'>
+                            <span
+                                className='absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md text-primary border-2 border-white'
+                                style={{
+                                    backgroundColor: business.category.bgcolor?.hex || '#fff'
+                                }}
+                            >
                                 {business.category.name}
                             </span>
                         </div>
                         <div className='flex flex-col items-start p-4 gap-1'>
-                            <h2 className='font-semibold text-base md:text-lg tracking-tight group-hover:text-foreground'>{business.name}</h2>
-                            <h3 className='text-primary text-sm'>{business.contactPerson}</h3>
-                            <p className='text-foreground/60 text-sm line-clamp-1'>{business.address}</p>
-                            <Button size='sm' className='rounded-full mt-3 shadow-sm'>Book Now</Button>
+                            <h2 className='font-bold text-base md:text-lg tracking-tight group-hover:text-primary transition-colors'>{business.name}</h2>
+                            <h3 className='text-primary font-medium text-sm'>{business.contactPerson}</h3>
+                            <p className='text-muted-foreground text-sm line-clamp-1'>{business.address}</p>
+                            <Button size='sm' className='rounded-full mt-3 w-full shadow-md hover:scale-[1.02] active:scale-95 transition-all text-xs font-bold uppercase'>Book Now</Button>
                         </div>
                     </Link>
                 ))

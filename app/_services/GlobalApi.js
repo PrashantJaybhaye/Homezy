@@ -38,6 +38,9 @@ const getAllBusinessList = async () => {
           address
           category {
             name
+            bgcolor {
+              hex
+            }
           }
           contactPerson
           email
@@ -63,6 +66,9 @@ const getBusinessByCategory = async (category) => {
           address
           category {
             name
+            bgcolor {
+              hex
+            }
           }
           contactPerson
           email
@@ -86,6 +92,9 @@ const getBusinessById = async (id) => {
       address
       category {
         name
+        bgcolor {
+          hex
+        }
       }
       contactPerson
       email
@@ -101,7 +110,7 @@ const getBusinessById = async (id) => {
   return result;
 }
 
-const createNewBooking = async (businessId, date, time, userEmail, userName) => {
+const createNewBooking = async (businessId, date, time, userEmail, userName, userAddress, userPhone) => {
   const mutationQuery = gql`
   mutation CreateBooking {
     createBooking(
@@ -109,7 +118,9 @@ const createNewBooking = async (businessId, date, time, userEmail, userName) => 
         businessList: {connect: {id: "`+ businessId + `"}},
          date: "`+ date + `", time: "` + time + `", 
          userEmail: "`+ userEmail + `",
-          userName: "`+ userName + `"}
+          userName: "`+ userName + `",
+          userAddress: "`+ userAddress + `",
+          userPhone: "`+ userPhone + `"}
     ) {
       id
     }
@@ -126,7 +137,7 @@ const BusinessBookedSlot = async (businessId, date) => {
   const query = gql`
   query BusinessBookedSlot {
     bookings(where: {businessList: 
-      {id: "`+ businessId + `"}, date: "` + date + `"}) {
+      {id: "`+ businessId + `"}, date: "` + date + `", bookingStatus_not: canceled}) {
       date
       time
     }
@@ -153,6 +164,8 @@ const GetUserBookingHistory = async (userEmail) => {
       time
       id
       bookingStatus
+      userAddress
+      userPhone
     }
   }
   `
