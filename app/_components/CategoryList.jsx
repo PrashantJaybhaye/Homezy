@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import Skeleton from './Skeleton'
 
 function CategoryList({ categoryList }) {
     return (
@@ -27,9 +28,9 @@ function CategoryList({ categoryList }) {
                 </Link>
             )) :
                 [1, 2, 3, 4, 5, 6].map((item, index) => (
-                    <div
+                    <Skeleton
                         key={index}
-                        className='h-[110px] md:h-[120px] w-full bg-muted animate-pulse rounded-xl border border-border dark:bg-dark-muted dark:border-dark-border'
+                        className='h-[110px] md:h-[120px] w-full rounded-xl'
                     />
                 ))
             }

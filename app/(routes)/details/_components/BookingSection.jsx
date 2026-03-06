@@ -14,6 +14,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Skeleton from "@/app/_components/Skeleton";
 import GlobalApi from "@/app/_services/GlobalApi";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
@@ -26,6 +27,9 @@ function BookingSection({ children, business }) {
   const [bookedSlot, setBookedSlot] = useState([]);
   const [userAddress, setUserAddress] = useState("");
   const [userPhone, setUserPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { user } = useUser();
   useEffect(() => {
     getTime();
@@ -39,13 +43,15 @@ function BookingSection({ children, business }) {
    * Get Selected Date Business Booked Slot
    */
   const BusinessBookedSlot = () => {
+    setLoading(true);
     GlobalApi.BusinessBookedSlot(
       business.id,
       moment(date).format("DD-MMM-yyyy")
     ).then((resp) => {
       console.log(resp);
       setBookedSlot(resp.bookings);
-    });
+      setLoading(false);
+    }).catch(() => setLoading(false));
   };
 
   const getTime = () => {
@@ -87,6 +93,8 @@ function BookingSection({ children, business }) {
           setSelectedTime("");
           setUserAddress("");
           setUserPhone("");
+          setPhoneError("");
+          setAddressError("");
           toast("Service Booked successfully!");
           // Toast Msg
         }
@@ -129,36 +137,66 @@ function BookingSection({ children, business }) {
           {/* Time Slot Picker  */}
           <h2 className="my-5 font-bold">Select Time Slot</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {timeSlot.map((item, index) => (
-              <Button
-                key={index}
-                disabled={isSlotBooked(item.time) || moment(date).isBefore(moment(), 'day') || (moment(date).isSame(moment(), 'day') && moment().isAfter(moment(item.time, "h:mm A")))}
-                variant="outline"
-                className={`border rounded-full 
-                p-2 px-1 sm:px-3 text-[12px] sm:text-base hover:bg-primary
-                 hover:text-white
-                 ${selectedTime == item.time && "bg-primary text-white"}`}
-                onClick={() => setSelectedTime(item.time)}
-              >
-                {item.time}
-              </Button>
-            ))}
+            {loading ? (
+              [1, 2, 3, 4, 5, 6].map((i) => (
+                <Skeleton key={i} className="h-10 w-full rounded-full" />
+              ))
+            ) : (
+              timeSlot.map((item, index) => (
+                <Button
+                  key={index}
+                  disabled={isSlotBooked(item.time) || moment(date).isBefore(moment(), 'day') || (moment(date).isSame(moment(), 'day') && moment().isAfter(moment(item.time, "h:mm A")))}
+                  variant="outline"
+                  className={`border rounded-full 
+                  p-2 px-1 sm:px-3 text-[12px] sm:text-base hover:bg-primary
+                   hover:text-white
+                   ${selectedTime == item.time && "bg-primary text-white"}`}
+                  onClick={() => setSelectedTime(item.time)}
+                >
+                  {item.time}
+                </Button>
+              ))
+            )}
           </div>
 
           <div className="flex flex-col gap-3 mt-5">
             <h2 className="font-bold">Contact Details</h2>
-            <Input
-              placeholder="Your Phone Number"
-              value={userPhone}
-              className="rounded-xl border-primary/20 focus-visible:ring-primary"
-              onChange={(e) => setUserPhone(e.target.value)}
-            />
-            <Input
-              placeholder="Your Home Address"
-              value={userAddress}
-              className="rounded-xl border-primary/20 focus-visible:ring-primary"
-              onChange={(e) => setUserAddress(e.target.value)}
-            />
+            <div>
+              <Input
+                placeholder="Your Phone Number (10 Digits)"
+                value={userPhone}
+                type="tel"
+                className={`rounded-xl ${phoneError ? 'border-red-500 focus-visible:ring-red-500' : 'border-primary/20 focus-visible:ring-primary'}`}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^0-9]/g, '');
+                  setUserPhone(val);
+                  if (val.length > 0 && val.length !== 10) {
+                    setPhoneError("Phone number must be exactly 10 digits");
+                  } else {
+                    setPhoneError("");
+                  }
+                }}
+                maxLength={10}
+              />
+              {phoneError && <p className="text-red-500 text-xs mt-1 ml-1">{phoneError}</p>}
+            </div>
+
+            <div>
+              <Input
+                placeholder="Your Home Address"
+                value={userAddress}
+                className={`rounded-xl ${addressError ? 'border-red-500 focus-visible:ring-red-500' : 'border-primary/20 focus-visible:ring-primary'}`}
+                onChange={(e) => {
+                  setUserAddress(e.target.value);
+                  if (e.target.value.length > 0 && e.target.value.length < 10) {
+                    setAddressError("Address must be at least 10 characters");
+                  } else {
+                    setAddressError("");
+                  }
+                }}
+              />
+              {addressError && <p className="text-red-500 text-xs mt-1 ml-1">{addressError}</p>}
+            </div>
           </div>
           <SheetFooter className="mt-5">
             <SheetClose asChild>
@@ -168,7 +206,7 @@ function BookingSection({ children, business }) {
                 </Button>
 
                 <Button
-                  disabled={!(selectedTime && date && userAddress && userPhone)}
+                  disabled={!(selectedTime && date && userAddress.length >= 10 && userPhone.length === 10)}
                   onClick={() => saveBooking()}
                 >
                   Book

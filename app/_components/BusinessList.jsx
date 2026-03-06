@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import Skeleton from './Skeleton'
 
 function BusinessList({ businessList, title }) {
     return (
@@ -41,7 +42,15 @@ function BusinessList({ businessList, title }) {
                 ))
                     :
                     [1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
-                        <div key={index} className='w-full h-[260px] bg-muted rounded-xl animate-pulse border border-border' />
+                        <div key={index} className='border rounded-xl overflow-hidden'>
+                            <Skeleton className="h-[150px] md:h-[200px] w-full rounded-none" />
+                            <div className='p-4 space-y-3'>
+                                <Skeleton className="h-6 w-3/4" />
+                                <Skeleton className="h-4 w-1/2" />
+                                <Skeleton className="h-4 w-full" />
+                                <Skeleton className="h-9 w-full rounded-full mt-2" />
+                            </div>
+                        </div>
                     ))
                 }
             </div>

@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, CheckCircle2 } from 'lucide-react'
 import BookingHistoryList from './_component/BookingHistoryList'
 import GlobalApi from '@/app/_services/GlobalApi'
+import Skeleton from '@/app/_components/Skeleton'
 import { useUser } from '@clerk/nextjs'
 import moment from 'moment'
 
@@ -11,6 +12,8 @@ function MyBooking() {
 
     const { user } = useUser();
     const [bookingHistory, setBookingHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         user && GetUserBookingHistory();
     }, [user])
@@ -19,10 +22,12 @@ function MyBooking() {
      * Used to Get User Booking History
      */
     const GetUserBookingHistory = () => {
+        setLoading(true);
         GlobalApi.GetUserBookingHistory(user.primaryEmailAddress.emailAddress).then(resp => {
             console.log(resp);
             setBookingHistory(resp.bookings);
-        })
+            setLoading(false);
+        }).catch(() => setLoading(false))
     }
 
     const filterData = (type) => {
@@ -50,7 +55,22 @@ function MyBooking() {
                 </TabsList>
 
                 <TabsContent value="booked" className="mt-6">
-                    {filterData('booked').length > 0 ? (
+                    {loading ? (
+                        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+                            {[1, 2, 3, 4].map((i) => (
+                                <div key={i} className='border rounded-xl p-5 space-y-4'>
+                                    <div className='flex gap-4'>
+                                        <Skeleton className="h-[120px] w-[150px] rounded-xl" />
+                                        <div className='flex-1 space-y-3'>
+                                            <Skeleton className="h-6 w-3/4" />
+                                            <Skeleton className="h-4 w-1/2" />
+                                            <Skeleton className="h-4 w-full" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filterData('booked').length > 0 ? (
                         <BookingHistoryList
                             bookingHistory={filterData('booked')}
                             type='booked'
@@ -65,7 +85,22 @@ function MyBooking() {
                 </TabsContent>
 
                 <TabsContent value="completed" className="mt-6">
-                    {filterData('completed').length > 0 ? (
+                    {loading ? (
+                        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+                            {[1, 2, 3, 4].map((i) => (
+                                <div key={i} className='border rounded-xl p-5 space-y-4 shadow-sm'>
+                                    <div className='flex gap-4'>
+                                        <Skeleton className="h-[120px] w-[150px] rounded-xl" />
+                                        <div className='flex-1 space-y-3'>
+                                            <Skeleton className="h-6 w-3/4" />
+                                            <Skeleton className="h-4 w-1/2" />
+                                            <Skeleton className="h-4 w-full" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filterData('completed').length > 0 ? (
                         <BookingHistoryList
                             bookingHistory={filterData('completed')}
                             type='completed'
@@ -80,7 +115,22 @@ function MyBooking() {
                 </TabsContent>
 
                 <TabsContent value="canceled" className="mt-6">
-                    {filterData('canceled').length > 0 ? (
+                    {loading ? (
+                        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+                            {[1, 2, 3, 4].map((i) => (
+                                <div key={i} className='border rounded-xl p-5 space-y-4 shadow-sm'>
+                                    <div className='flex gap-4'>
+                                        <Skeleton className="h-[120px] w-[150px] rounded-xl" />
+                                        <div className='flex-1 space-y-3'>
+                                            <Skeleton className="h-6 w-3/4" />
+                                            <Skeleton className="h-4 w-1/2" />
+                                            <Skeleton className="h-4 w-full" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filterData('canceled').length > 0 ? (
                         <BookingHistoryList
                             bookingHistory={filterData('canceled')}
                             type='canceled'
