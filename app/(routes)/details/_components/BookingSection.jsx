@@ -58,10 +58,10 @@ function BookingSection({ children, business }) {
     const timeList = [];
     for (let i = 10; i <= 12; i++) {
       timeList.push({
-        time: i + ":00 AM",
+        time: i + (i === 12 ? ":00 PM" : ":00 AM"),
       });
       timeList.push({
-        time: i + ":30 AM",
+        time: i + (i === 12 ? ":30 PM" : ":30 AM"),
       });
     }
     for (let i = 1; i <= 6; i++) {
@@ -145,7 +145,10 @@ function BookingSection({ children, business }) {
               timeSlot.map((item, index) => (
                 <Button
                   key={index}
-                  disabled={isSlotBooked(item.time) || moment(date).isBefore(moment(), 'day') || (moment(date).isSame(moment(), 'day') && moment().isAfter(moment(item.time, "h:mm A")))}
+                  disabled={
+                    isSlotBooked(item.time) ||
+                    moment(`${moment(date).format('YYYY-MM-DD')} ${item.time}`, 'YYYY-MM-DD h:mm A').isBefore(moment())
+                  }
                   variant="outline"
                   className={`border rounded-full 
                   p-2 px-1 sm:px-3 text-[12px] sm:text-base hover:bg-primary

@@ -147,11 +147,13 @@ const BusinessBookedSlot = async (businessId, date) => {
   return result;
 }
 
-const GetUserBookingHistory = async (userEmail) => {
+const GetUserBookingHistory = async (userEmail, first = 10, skip = 0) => {
   const query = gql`
   query GetUserBookingHistory {
     bookings(where: {userEmail: "`+ userEmail + `"}
-    orderBy: publishedAt_DESC) {
+    orderBy: publishedAt_DESC
+    first: ${first}
+    skip: ${skip}) {
       businessList {
         name
         images {
@@ -159,6 +161,7 @@ const GetUserBookingHistory = async (userEmail) => {
         }
         contactPerson
         address
+        id
       }
       date
       time
@@ -188,6 +191,83 @@ const deleteBooking = async (bookingId) => {
   return result;
 }
 
+const addReviewToBooking = async (bookingId, rating, review) => {
+  const mutationQuery = gql`
+  mutation AddReview {
+    updateBooking(
+      where: {id: "${bookingId}"}
+      data: {rating: ${rating}, review: "${review}"}
+    ) {
+      id
+    }
+    publishBooking(where: {id: "${bookingId}"}, to: PUBLISHED) {
+      id
+    }
+  }
+  `
+  const result = await request(MASTER_URL, mutationQuery, {}, getRequestHeaders())
+  return result;
+}
+
+const rescheduleBooking = async (bookingId, date, time) => {
+  const mutationQuery = gql`
+  mutation RescheduleBooking {
+    updateBooking(
+      where: {id: "${bookingId}"}
+      data: {date: "${date}", time: "${time}", bookingStatus: booked}
+    ) {
+      id
+    }
+    publishBooking(where: {id: "${bookingId}"}, to: PUBLISHED) {
+      id
+    }
+  }
+  `
+  const result = await request(MASTER_URL, mutationQuery, {}, getRequestHeaders())
+  return result;
+}
+
+const getAllBookings = async () => {
+  const query = gql`
+  query GetAllBookings {
+    bookings(orderBy: publishedAt_DESC) {
+      id
+      date
+      time
+      bookingStatus
+      userEmail
+      userName
+      userPhone
+      userAddress
+      businessList {
+        name
+        id
+      }
+    }
+  }
+  `
+  const result = await request(MASTER_URL, query, {}, getRequestHeaders())
+  return result;
+}
+
+const updateBookingStatus = async (bookingId, status) => {
+  const mutationQuery = gql`
+  mutation UpdateBookingStatus {
+    updateBooking(
+      where: {id: "${bookingId}"}
+      data: {bookingStatus: ${status}}
+    ) {
+      id
+    }
+    publishBooking(where: {id: "${bookingId}"}, to: PUBLISHED) {
+      id
+    }
+  }
+  `
+  const result = await request(MASTER_URL, mutationQuery, {}, getRequestHeaders())
+  return result;
+}
+
 export default {
   getCategory,
   getAllBusinessList,
@@ -196,5 +276,9 @@ export default {
   createNewBooking,
   BusinessBookedSlot,
   GetUserBookingHistory,
-  deleteBooking
+  deleteBooking,
+  addReviewToBooking,
+  rescheduleBooking,
+  getAllBookings,
+  updateBookingStatus
 }

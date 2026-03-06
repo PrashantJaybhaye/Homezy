@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from '@/components/ui/button'
 import { Calendar, CheckCircle2 } from 'lucide-react'
 import BookingHistoryList from './_component/BookingHistoryList'
 import GlobalApi from '@/app/_services/GlobalApi'
@@ -14,20 +15,41 @@ function MyBooking() {
     const [bookingHistory, setBookingHistory] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [skip, setSkip] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+
     useEffect(() => {
-        user && GetUserBookingHistory();
+        user && GetUserBookingHistory(0);
     }, [user])
 
     /**
      * Used to Get User Booking History
      */
-    const GetUserBookingHistory = () => {
+    const GetUserBookingHistory = (currentSkip) => {
         setLoading(true);
-        GlobalApi.GetUserBookingHistory(user.primaryEmailAddress.emailAddress).then(resp => {
+        GlobalApi.GetUserBookingHistory(user.primaryEmailAddress.emailAddress, 10, currentSkip).then(resp => {
             console.log(resp);
-            setBookingHistory(resp.bookings);
+
+            if (currentSkip === 0) {
+                setBookingHistory(resp.bookings);
+            } else {
+                setBookingHistory(prev => [...prev, ...resp.bookings]);
+            }
+
+            // If less than 10 are returned, assume no more items left
+            if (resp.bookings.length < 10) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+            }
             setLoading(false);
         }).catch(() => setLoading(false))
+    }
+
+    const loadMore = () => {
+        const newSkip = skip + 10;
+        setSkip(newSkip);
+        GetUserBookingHistory(newSkip);
     }
 
     const filterData = (type) => {
@@ -144,6 +166,19 @@ function MyBooking() {
                     )}
                 </TabsContent>
             </Tabs>
+
+            {hasMore && bookingHistory.length > 0 && !loading && (
+                <div className='flex justify-center mt-8'>
+                    <Button onClick={loadMore} variant="outline" className='w-full md:w-auto px-8'>
+                        Load More Bookings
+                    </Button>
+                </div>
+            )}
+            {loading && bookingHistory.length > 0 && (
+                <div className='flex justify-center mt-8 text-muted-foreground'>
+                    <div className='animate-pulse'>Loading more...</div>
+                </div>
+            )}
 
         </div>
     )

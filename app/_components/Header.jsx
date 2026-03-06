@@ -10,11 +10,17 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Menu, Home, Briefcase, Info, Calendar, X } from "lucide-react";
+import { Menu, Home, Briefcase, Info, Calendar, X, ShieldAlert } from "lucide-react";
 
 function Header() {
-  const { isSignedIn, user } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
   const [scrolled, setScrolled] = useState(false);
+
+  const ADMIN_EMAILS = [
+    "mahtiinay@gmail.com",
+    "poonamshirsat2004@gmail.com",
+  ];
+  const isAdmin = user?.primaryEmailAddress?.emailAddress && ADMIN_EMAILS.includes(user?.primaryEmailAddress?.emailAddress);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,8 +33,8 @@ function Header() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
-          ? "backdrop-blur-xl bg-white/80 dark:bg-background/80 shadow-lg shadow-black/5"
-          : "backdrop-blur-md bg-white/70 dark:bg-background/60"
+        ? "backdrop-blur-xl bg-white/80 dark:bg-background/80 shadow-lg shadow-black/5"
+        : "backdrop-blur-md bg-white/70 dark:bg-background/60"
         } border-b border-border/40`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,8 +83,24 @@ function Header() {
 
           {/* Right Section - Auth & Mobile Menu */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {isSignedIn ? (
+            {!isLoaded ? (
+              <div className="w-24 border sm:w-32 h-9 animate-pulse bg-gray-100 rounded-full"></div>
+            ) : isSignedIn ? (
               <>
+                {/* Admin Dashboard Button - Hidden on small mobile */}
+                {isAdmin && (
+                  <Link href="/admin" className="hidden sm:block">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-sm font-medium border-primary text-primary hover:bg-primary/10 transition-colors"
+                    >
+                      <ShieldAlert className="w-4 h-4 mr-2" />
+                      Admin Panel
+                    </Button>
+                  </Link>
+                )}
+
                 {/* My Booking Button - Hidden on small mobile */}
                 <Link href="/mybooking" className="hidden sm:block">
                   <Button
@@ -173,8 +195,21 @@ function Header() {
                     <div className="h-px bg-border/60 my-4" />
 
                     {/* Auth Section in Mobile Menu */}
-                    {isSignedIn ? (
+                    {!isLoaded ? (
+                      <div className="w-full h-12 animate-pulse bg-gray-100 rounded-lg"></div>
+                    ) : isSignedIn ? (
                       <div className="flex flex-col gap-3">
+                        {isAdmin && (
+                          <SheetClose asChild>
+                            <Link
+                              href="/admin"
+                              className="flex items-center gap-3 px-4 py-3 text-base font-medium rounded-lg text-primary hover:bg-primary/10 transition-all duration-200"
+                            >
+                              <ShieldAlert className="w-5 h-5" />
+                              Admin Panel
+                            </Link>
+                          </SheetClose>
+                        )}
                         <SheetClose asChild>
                           <Link
                             href="/mybooking"
