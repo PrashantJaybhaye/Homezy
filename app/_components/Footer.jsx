@@ -28,7 +28,8 @@ function Footer() {
                 alt="Homezy Logo"
                 width={140}
                 height={70}
-                className="h-auto"
+                className="w-[140px]"
+                style={{ height: "auto" }}
               />
             </Link>
             <p className="text-sm text-foreground/60 max-w-xs">

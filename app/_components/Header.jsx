@@ -50,7 +50,8 @@ function Header() {
                 alt="Homezy Logo"
                 width={170}
                 height={90}
-                className="w-[150px] h-auto sm:w-[160px] md:w-[190px]"
+                className="w-[150px] sm:w-[160px] md:w-[190px]"
+                style={{ height: "auto" }}
                 priority
               />
             </Link>
