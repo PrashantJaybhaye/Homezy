@@ -14,6 +14,7 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { checkIsAdmin } from "@/lib/constants"
 
 function AdminDashboard() {
     const { user } = useUser();
@@ -24,12 +25,7 @@ function AdminDashboard() {
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [isUpdating, setIsUpdating] = useState(false);
 
-    const ADMIN_EMAILS = [
-        "mahtiinay@gmail.com",
-        "poonamshirsat2004@gmail.com",
-    ];
-
-    const isAdmin = user?.primaryEmailAddress?.emailAddress && ADMIN_EMAILS.includes(user?.primaryEmailAddress?.emailAddress);
+    const isAdmin = checkIsAdmin(user);
 
     useEffect(() => {
         if (isAdmin) {

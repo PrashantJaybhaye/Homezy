@@ -21,6 +21,11 @@ A modern, intuitive home service booking platform built with Next.js that connec
 - 📋 **Manage Bookings** - View and track all your bookings in one place
 - 🔐 **Secure Authentication** - Sign up/sign in with Clerk authentication
 
+### For Administrators
+
+- 🛡️ **Admin Dashboard** - Secure panel for platform administration and business management
+- 🔐 **Role-Based Access** - Dedicated administrative privileges for authorized emails
+
 ### Platform Features
 
 - 🌗 **Dark/Light Mode** - Theme switching for comfortable viewing
@@ -33,16 +38,12 @@ A modern, intuitive home service booking platform built with Next.js that connec
 
 ## 🛠️ Tech Stack
 
-| Category           | Technologies                       |
-| ------------------ | ---------------------------------- |
-| **Framework**      | Next.js 16.1                       |
-| **Frontend**       | React 19.2, TailwindCSS 3.3        |
-| **Authentication** | Clerk                              |
-| **UI Components**  | Radix UI, Lucide Icons             |
-| **Data Fetching**  | GraphQL, graphql-request           |
-| **Date Handling**  | date-fns, moment, react-day-picker |
-| **Styling**        | TailwindCSS, tailwindcss-animate   |
-| **Theming**        | next-themes                        |
+| Category           | Technologies                |
+| ------------------ | --------------------------- |
+| **Frontend**       | Next.js, React, TailwindCSS |
+| **Backend**        | Next.js, GraphQL API        |
+| **Authentication** | Clerk                       |
+| **Database**       | Hygraph (Headless CMS)      |
 
 ---
 
@@ -106,6 +107,7 @@ homezy/
 ├── app/
 │   ├── (routes)/           # App routes
 │   │   ├── about/          # About page
+│   │   ├── admin/          # Admin panel & management tools
 │   │   ├── details/        # Business details
 │   │   ├── mybooking/      # User bookings
 │   │   ├── privacy/        # Privacy policy
@@ -121,6 +123,7 @@ homezy/
 │   │   ├── Footer.jsx
 │   │   ├── Header.jsx
 │   │   ├── Hero.jsx
+│   │   ├── Skeleton.jsx
 │   │   └── Testimonials.jsx
 │   ├── _services/          # API services
 │   ├── layout.js           # Root layout
@@ -135,16 +138,11 @@ homezy/
 
 ## 📜 Available Scripts
 
-| Script              | Description                      |
-| ------------------- | -------------------------------- |
-| `npm run dev`       | Start development server         |
-| `npm run build`     | Build for production             |
-| `npm run start`     | Start production server          |
-| `npm run lint`      | Run ESLint                       |
-| `npm run lint:fix`  | Fix ESLint errors                |
-| `npm run format`    | Format code with Prettier        |
-| `npm run clean`     | Remove .next and node_modules    |
-| `npm run reinstall` | Clean and reinstall dependencies |
+| Script          | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Build for production     |
+| `npm run start` | Start production server  |
 
 ---
 

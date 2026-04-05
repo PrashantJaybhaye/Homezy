@@ -11,16 +11,13 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Menu, Home, Briefcase, Info, Calendar, X, ShieldAlert } from "lucide-react";
+import { checkIsAdmin } from "@/lib/constants";
 
 function Header() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [scrolled, setScrolled] = useState(false);
 
-  const ADMIN_EMAILS = [
-    "mahtiinay@gmail.com",
-    "poonamshirsat2004@gmail.com",
-  ];
-  const isAdmin = user?.primaryEmailAddress?.emailAddress && ADMIN_EMAILS.includes(user?.primaryEmailAddress?.emailAddress);
+  const isAdmin = checkIsAdmin(user);
 
   useEffect(() => {
     const handleScroll = () => {
